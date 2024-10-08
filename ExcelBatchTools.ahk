@@ -26,7 +26,7 @@ APP_VERSION   := "0.0.1"
 
 ;编译后文件名
 ;@Ahk2Exe-Obey U_bits, = %A_PtrSize% * 8
-;@Ahk2Exe-ExeName %U_NameCN%(%U_bits%bit) %U_ProductVersion%
+;@Ahk2Exe-ExeName %U_NameCN%(%U_bits%bit) v%U_ProductVersion%
 ;编译后属性信息
 ;@Ahk2Exe-SetName %U_Name%
 ;@Ahk2Exe-SetProductVersion %U_ProductVersion%
