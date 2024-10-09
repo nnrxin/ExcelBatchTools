@@ -8,6 +8,7 @@ SendMode "Input"
 #Include <File\Path>
 #Include <File\FileCopyEx>
 #Include <GUI\ProgressGui>
+#Include <GUI\ProgressInStatusBar>
 
 
 ; APP名称
@@ -20,7 +21,7 @@ APP_NAME_FULL := "ExcelBatchTools"
 APP_NAME_CN   := "EXCEL文件批量处理工具EBT"
 ;@Ahk2Exe-Let U_NameCN = %A_PriorLine~U)(^.*")|(".*$)%
 ; 当前版本
-APP_VERSION   := "0.0.1"
+APP_VERSION   := "0.0.2"
 ;@Ahk2Exe-Let U_ProductVersion = %A_PriorLine~U)(^.*")|(".*$)%
 
 
@@ -166,12 +167,21 @@ BTstart_Click(thisCtrl, info) {
 	MainGui.Opt("+OwnDialogs")
 	if RD1.Value and MsgBox("将在原EXCEL文件上进行修改,是否继续？",, 68) = "No"
 		return
+	;设置进度条
+	MaxCount := LV.GetCount()
+	SB.SetText("处理中")
+	SB.SetParts(100,100)
+	if !SB.HasProp("Progress")
+		SB.Progress := ProgressInStatusBar(SB, 0, 3)
+	SB.Progress.Value := 0
+	SB.Progress.Range := "0-" MaxCount
+	SB.Progress.Visible := true
 	;开始处理
 	EnableBottons(false) ; 禁用按钮
 	dirName := APP_NAME_FULL "_" A_Now
-	loop LV.GetCount() {
-		;确认目标文件名
-	    file := filesInLV[LV.GetText(A_Index, 2)]
+	loop MaxCount {
+		SB.SetText(A_index "/" MaxCount, 2)
+	    file := filesInLV[LV.GetText(A_Index, 2)] ; 确认目标文件名
 		try {
 			if RD1.Value ; 覆盖原文件
 				tarPath := file.path
@@ -186,9 +196,12 @@ BTstart_Click(thisCtrl, info) {
 		else
 			file.status := "处理成功"
 		LV.Modify(A_Index, "Vis Focus Col4", file.status) ; 可见 焦点 选中 列4修改
+		SB.Progress.Value++
 	}
 	LV.AdjustColumnsWidth()
 	EnableBottons(true) ; 启用按钮
+	SB.Progress.Visible := false
+	SB.SetParts()
 	SB.SetText("处理完成!")
 	if !RD1.Value ; 另存模式时完成后打开新目录
 		Run A_ScriptDir "\" dirName "\"
@@ -216,7 +229,6 @@ SB.SetText("将Excel文件或文件夹拖入窗口中")
 ;SB.SetTextWithAutoEmpty(newText, second, partNumber)
 
 
-
 ;GUI菜单
 MainGui.OnEvent("ContextMenu", MainGui_ContextMenu)
 MainGui_ContextMenu(GuiObj, GuiCtrlObj, Item, IsRightClick, X, Y) {
@@ -242,6 +254,8 @@ MainGui_DropFiles(GuiObj, GuiCtrlObj, FileArray, X, Y) {
 MainGui.OnEvent("Size", MainGui_Size)
 MainGui_Size(thisGui, MinMax, W, H) {
 	LV.AdjustColumnsWidth()
+	if SB.HasProp("Progress")
+		SB.Progress.AdjustSize()
 }
 
 ;GUI关闭
