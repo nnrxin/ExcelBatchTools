@@ -64,7 +64,7 @@ G := {}
 
 ;创建主GUI
 MainGuiWidth := 700, MainGuiHeight := 500
-MainGui := Gui("+Resize +MinSize" MainGuiWidth "x" MainGuiHeight , APP_NAME_CN " " APP_VERSION)   ;GUI可修改尺寸
+MainGui := Gui("+Resize +MinSize" MainGuiWidth "x" MainGuiHeight , APP_NAME_CN " v" APP_VERSION)   ;GUI可修改尺寸
 MainGui.Show("hide w" MainGuiWidth " h" MainGuiHeight)
 MainGui.MarginX := MainGui.MarginY := 0
 MainGui.SetFont("s9", "微软雅黑")
