@@ -8,9 +8,9 @@ AHK_DirInstallTo(targetPath, overwrite := 0)
 		DirCreate(targetPath "\XL\64bit")
 		;安装文件
 		if overwrite or !FileExist(targetPath "\XL\32bit\libxl.dll")
-			FileInstall("D:\Admin\OneDrive\ahk 2.0\9.自编软件\7.批量操作Excel工具合集\ExcelBatchTools\NeedInstall\XL\32bit\libxl.dll", targetPath "\XL\32bit\libxl.dll", 1)
+			FileInstall("D:\Admin\OneDrive\ahk 2.0\9.自编软件\7.ExcelBatchToolsEXCEL文件批量处理工具\ExcelBatchTools\NeedInstall\XL\32bit\libxl.dll", targetPath "\XL\32bit\libxl.dll", 1)
 		if overwrite or !FileExist(targetPath "\XL\64bit\libxl.dll")
-			FileInstall("D:\Admin\OneDrive\ahk 2.0\9.自编软件\7.批量操作Excel工具合集\ExcelBatchTools\NeedInstall\XL\64bit\libxl.dll", targetPath "\XL\64bit\libxl.dll", 1)
+			FileInstall("D:\Admin\OneDrive\ahk 2.0\9.自编软件\7.ExcelBatchToolsEXCEL文件批量处理工具\ExcelBatchTools\NeedInstall\XL\64bit\libxl.dll", targetPath "\XL\64bit\libxl.dll", 1)
 	}
 	return 1
 }

@@ -159,7 +159,8 @@ BTstart := MainGui.Add("Button", "xp y+5 h40 wp AXP", "删除前几行")
 BTstart.OnEvent("Click", BTstart_Click)
 BTstart_Click(thisCtrl, info) {
 	;询问删除几行
-	IB := InputBox("想要删除EXCEL表格前几行?", "请输入数字")
+	MainGui.Opt("+OwnDialogs")
+	IB := InputBox("想要删除EXCEL表格前几行?", "请输入数字", "w280 h100", 1)
 	if IB.Result = "Cancel"
 		return
 	n := IB.Value && IsInteger(IB.Value) ? IB.Value : 1
